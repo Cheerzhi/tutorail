@@ -133,3 +133,231 @@ header section article nav aside
 - 先从高等级进行比较，高等级相同时，再比较低等级的，以此类推；
 - 完全相同的话，就采用 后者优先原则（也就是样式覆盖）；
 - css属性后面加 !important 时，无条件绝对优先（比内联样式还要优先）；
+
+# 实现两栏布局
+```html
+<div class="container">
+  <div class="left">左侧内容</div>
+  <div class="right">右侧内容</div>
+</div>
+```
+1. float+margin
+```css
+* {
+  margin:0;
+  padding:0;
+}
+
+.container {
+  overflow:hidden;
+}
+
+.left {
+  float:left;
+  width:200px;
+  height:200px;
+}
+
+.right {
+  margin-left:200px;
+  height:200px;
+}
+```
+
+2. position(绝对定位)
+```css
+* {
+  margin:0;
+  padding:0;
+}
+
+.container {
+  overflow:hidden;
+  position:relative;
+}
+
+.left {
+  position:absolute;
+  left:0;
+  top:0;
+  width:200px;
+  height:200px;
+}
+
+.right {
+  margin-left:200px;
+  height:200px;
+}
+```
+
+3. inline-block&& calc
+```css
+* {
+  margin:0;
+  padding:0;
+}
+
+.container {
+  overflow:hidden;
+  width:100%
+}
+
+.left {
+  display:inline-block;
+  width:200px;
+  height:200px;
+}
+
+.right {
+  display:inline-block;
+  width:calc(100% - 200px);
+  height:200px;
+}
+```
+
+4. flex布局
+
+```css
+* {
+  margin:0;
+  padding:0;
+}
+
+.container {
+  display:flex;
+  width:100%;
+}
+
+.left {
+  height:200px;
+  flex:0 0 200px;
+}
+
+.right {
+  flex:1;
+  height:200px;
+}
+```
+
+
+# 三栏布局
+
+```html
+<div class="container">
+  <div class="left">左侧内容</div>
+  <div class="main">中侧内容</div>
+  <div class="right">右侧内容</div>
+</div>
+```
+
+1. 两边浮动 + 中间margin
+
+```css
+* {
+  margin:0;
+  padding:0;
+}
+
+.container {
+  overflow:hidden;
+  width:100%;
+}
+
+.left,.right {
+  width:200px;
+  float:left;
+}
+
+.main {
+  margin: 0 200px;
+}
+```
+
+2. 绝对定位
+
+```css
+* {
+  margin:0;
+  padding:0;
+}
+
+.container {
+  overflow:hidden;
+  position:positive;
+  width:100%;
+}
+
+.left,.right {
+  width:200px;
+  height:300px;
+  position:absolute;
+}
+
+.left{
+  left:0px;
+}
+
+.right{
+  right:0;
+}
+
+.main {
+  margin: 0 200px;
+  height:300px;
+  left:200px;
+  right:300px;
+}
+```
+
+# 清除浮动
+
+1. 添加一个额外标签
+```html
+  <div class="father">
+    <div class="float"></div>
+    <div class="clear"></div>
+  </div>
+```
+```css
+  .float{
+    float:left;
+  }
+  .clear{
+    clear:both;
+  }
+
+```
+
+2. 父级元素添加overflow属性
+
+```css
+  .float{
+    float:left;
+  }
+  .father{
+    overflow:hidden;
+  }
+```
+
+3. 双伪元素清除浮动
+```css
+  .float:after,.float:before {
+    content:"";
+  }
+
+  .float:after {
+    clear:both;
+  }
+```
+
+# BFC
+块式格式化上下文
+
+内部的盒子在垂直方向依序放置
+盒子间距由margin确定
+
+- float的值不为none。
+- overflow的值不为visible。
+- display的值为table-cell,  table-caption, inline-block中的任何一个。
+- position的值不为relative和static。
+- 根元素或者其他包含它的元素
