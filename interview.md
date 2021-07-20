@@ -328,7 +328,7 @@ header section article nav aside
 
 ```
 
-2. 父级元素添加overflow属性
+2. 父级元素添加overflow:hidden属性
 
 ```css
   .float{
