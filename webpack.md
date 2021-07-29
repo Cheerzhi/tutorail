@@ -4,14 +4,29 @@ webpack-cli和webpack-dev-server是有版本兼容性的问题;cli需要降版�
 webpack.config.js
 
 ```js
+const path = require('path')
 module.exports = {
-  entry:'./src/index.js', //打包入口
-  output:{
-    filename:'./bundle.js', //出口
+  entry: {
+    index: './index.js',
+  }, //SPA的入口 
+  // entry: {
+  //   pageA: './page/pageA.js',    //多页应用
+  //   pageB: "./page/pageB.js",  
+  // },
+  context: path.join(__dirname, './src'), //默认为根目录
+  output: {
+    filename: '[hash].js',                //hash 和name
+    path: path.join(__dirname, '/dist/assets'),
+    //指定资源的请求位置
+    publicPath:"./dist/",               //html有关的路径
+    // publicPath:"/dist/",             //host形式加载
+    // publicPath:"http://cdn.com",     //cdn形式加载     
   },
-  mode:'development',
-  devServer:{
-    publicPath:'/dist' //浏览器模拟环境对应文件夹
+  mode: 'development',
+  devServer: {
+    //静态资源服务器的路径
+    publicPath: '/dist',
+    port:9527,          //端口号
   }
 }
 ```
@@ -36,8 +51,83 @@ module.exports = {
 
 - commonJS是动态的;ES6 Module是仅仅是模块依赖关系建立在代码编译的时候;
 - 循环依赖的结果 commonJS模块被引入执行时有可能的未完成就取出导出值;ES6-modules则会使用执行完成后的导出值
+
+### vendor的提取
+
 ## loader
 
+### loader概述
+
+1. loader本质上是一个函数;
+2. 函数执行后产生转换后的内容、source map、AST;
+3. 转换后的内容能够为下一个loader所使用
+
+### loader配置
+```js
+
+const path = require('path')
+module.exports = {
+  entry: {
+    index: './index.js',
+  }, //SPA的入口 
+  // entry: {
+  //   pageA: './page/pageA.js',    //多页应用
+  //   pageB: "./page/pageB.js",  
+  // },
+  context: path.join(__dirname, './src'), //默认为根目录
+  output: {
+    filename: '[hash].js', //hash 和name
+    path: path.join(__dirname, '/dist/assets'),
+    //指定资源的请求位置
+    publicPath: "./dist/", //html有关的路径
+    // publicPath:"/dist/",             //host形式加载
+    // publicPath:"http://cdn.com",     //cdn形式加载     
+  },
+  mode: 'development',
+  devServer: {
+    //静态资源服务器的路径
+    publicPath: '/dist',
+    port: 9527, //端口号
+  },
+  module: {
+    rules: [{
+      test:/\.css$/,
+      use:['style-loader','css-loader'],
+      exclude:'/node_modules/',       //排除处理的文件
+      // include;                     //应该处理的文件
+    }],
+  }
+}
+```
+
+
+- css
+1. css-loader
+
+    编译css样式
+
+2. style-loader
+
+    包装成style标签插入页面
+
+3. sass-loader
+
+    预处理scss文件成css
+
+4. less-loader
+
+    预处理less文件成css
+- js
+1. babel
+
+* babel-loader  
+* @babel/core(babel编译器核心模块)
+* @babel-preset-env(预置器)
+* babel-preset-env
+
+2. typescript(待补充)
+
+- html
 
 ## plugin
 
