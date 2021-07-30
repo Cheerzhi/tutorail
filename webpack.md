@@ -64,7 +64,6 @@ module.exports = {
 
 ### loader配置
 ```js
-
 const path = require('path')
 module.exports = {
   entry: {
@@ -76,7 +75,7 @@ module.exports = {
   // },
   context: path.join(__dirname, './src'), //默认为根目录
   output: {
-    filename: '[hash].js', //hash 和name
+    filename: 'bundle.js', //hash 和name
     path: path.join(__dirname, '/dist/assets'),
     //指定资源的请求位置
     publicPath: "./dist/", //html有关的路径
@@ -91,10 +90,34 @@ module.exports = {
   },
   module: {
     rules: [{
-      test:/\.css$/,
-      use:['style-loader','css-loader'],
-      exclude:'/node_modules/',       //排除处理的文件
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+      exclude: /node_modules/, //排除处理的文件
       // include;                     //应该处理的文件
+    }, {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+          presets: [
+            ['env', {
+              modules: false
+            }]
+          ]
+        }
+      }
+    },  {
+      test: /\.(png|jpg|gif)$/,
+      use: {
+        loader: 'url-loader',
+        options: {
+          limit: 2048, //小于2kb转换成base64
+          name: '[name].[ext]',
+          outputPath: './images/', //输出路径
+        }
+      }
     }],
   }
 }
@@ -117,6 +140,9 @@ module.exports = {
 4. less-loader
 
     预处理less文件成css
+5. postcss-loader
+
+    rem 和vw的预处理转换
 - js
 1. babel
 
@@ -129,15 +155,24 @@ module.exports = {
 
 - html
 
-## plugin
+- 其他资源
 
+1. file-loader  将其他文件转换为base64
+2. url-loader   
+* url-loader是封装了file-loader
+3. vue-loader   
+## plugin(待补充)
+
+1. mini-css-extract-plugin
+webpack4 后使用打包css文件成html的link标签
+
+2. HtmlWebpackPlugin
+3. SplitChunksPlugin
+4. preload-webpack-plugin
+## splitchunk && pages
 
 ## devtools && sourcemap
 
 
 ## hot-server
-
-
-## splitchunk && pages
-
 
