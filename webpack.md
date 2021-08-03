@@ -64,30 +64,34 @@ module.exports = {
 
 ### loader配置
 ```js
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 module.exports = {
-  entry: {
-    index: './index.js',
-  }, //SPA的入口 
+  entry:  './src/main.js', //SPA的入口 
   // entry: {
   //   pageA: './page/pageA.js',    //多页应用
   //   pageB: "./page/pageB.js",  
   // },
-  context: path.join(__dirname, './src'), //默认为根目录
+  // context: path.join(__dirname, './src'), //默认为根目录
   output: {
     filename: 'bundle.js', //hash 和name
-    path: path.join(__dirname, '/dist/assets'),
+    path: path.join(__dirname, '/dist'),
     //指定资源的请求位置
-    publicPath: "./dist/", //html有关的路径
-    // publicPath:"/dist/",             //host形式加载
+    // publicPath: "./assets/", //html有关的路径
     // publicPath:"http://cdn.com",     //cdn形式加载     
   },
   mode: 'development',
   devServer: {
     //静态资源服务器的路径
-    publicPath: '/dist',
+    contentBase: './dist',
+    // host:"0.0.0.0",  //访问端口号
+    // hot:true,
+    // open:true        //打开
+    // inline:true,     //文件修改后实时刷新
     port: 9527, //端口号
   },
+  // devtool:"source-map",    会生成调试完整的.map文件,会减慢打包速度
   module: {
     rules: [{
       test: /\.css$/,
@@ -102,9 +106,10 @@ module.exports = {
         options: {
           cacheDirectory: true,
           presets: [
-            ['env', {
-              modules: false
-            }]
+            '@babel/preset-react',
+            // ['env', {
+            //   modules: false
+            // }]
           ]
         }
       }
@@ -115,11 +120,17 @@ module.exports = {
         options: {
           limit: 2048, //小于2kb转换成base64
           name: '[name].[ext]',
-          outputPath: './images/', //输出路径
+          outputPath: './assets/images', //输出路径
         }
       }
     }],
-  }
+  },
+  plugins:[
+    new CleanWebpackPlugin(), // 清理文件夹的名称
+    new HtmlWebpackPlugin({
+      template:"./public/index.html"
+    }),
+  ]
 }
 ```
 
@@ -160,15 +171,21 @@ module.exports = {
 1. file-loader  将其他文件转换为base64
 2. url-loader   
 * url-loader是封装了file-loader
+* outputPath可设置打包后图片的对应路径
 3. vue-loader   
 ## plugin(待补充)
 
 1. mini-css-extract-plugin
-webpack4 后使用打包css文件成html的link标签
+- webpack4 后使用打包css文件成html的link标签
 
 2. HtmlWebpackPlugin
+- 以一个模版打包后自动创建对应html文件
 3. SplitChunksPlugin
 4. preload-webpack-plugin
+5. DefinePlugin
+6. HotModuleReplacementPlugin
+7. CleanWebpackPlugin
+- 清空dist文件夹
 ## splitchunk && pages
 
 ## devtools && sourcemap
