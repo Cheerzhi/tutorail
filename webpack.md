@@ -153,7 +153,7 @@ module.exports = {
     预处理less文件成css
 5. postcss-loader
 
-    rem 和vw的预处理转换
+    rem 和vw的预处理转换(常用)
 - js
 1. babel
 
@@ -164,7 +164,6 @@ module.exports = {
 
 2. typescript(待补充)
 
-- html
 
 - 其他资源
 
@@ -182,14 +181,14 @@ module.exports = {
 - 以一个模版打包后自动创建对应html文件
 3. SplitChunksPlugin
 4. preload-webpack-plugin
-5. DefinePlugin
-6. HotModuleReplacementPlugin
-7. CleanWebpackPlugin
+5. HotModuleReplacementPlugin
+- 供dev环境下的文件热更新
+6. CleanWebpackPlugin
 - 清空dist文件夹
+
+## merge
+- 分开生产和dev的属性
+- 通过webpack-merge来合并对应的配置
 ## splitchunk && pages
 
-## devtools && sourcemap
-
-
-## hot-server
 
