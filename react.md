@@ -121,6 +121,7 @@ IE9以上
     };
 ```
 属性的类型和校验
+- 必选的校验以及对传入为对象和对象数组
 
 ```js
     import PropTypes from 'prop-types';
@@ -143,7 +144,30 @@ IE9以上
               );
             }
         },
-    }
+    },
+    app.propTypes=PropTypes.arrayOf({
+    id:PropTypes.number,
+    title:PropTypes.string,
+    author:PropTypes.string,
+    date:PropTypes.number,
+    vote:PropTypes.number,
+    }).isRequired,
+```
+### 全局样式和局部样式
+
+```js
+//全局引入的样式
+import './PostList.css'
+
+<div className="container"></div>
+
+//局部引入的样式
+// 引入后对对应的元素进行赋值、并且文件命名.module.css
+import itemCss from './PostItem.module.css'
+<div className={itemCss.xxx}></div>
+
+
+
 ```
 
 ### state和setState
@@ -282,4 +306,33 @@ export default class home extends Component {
 
 ### 组件生命周期
 
-* Mounting:
+1. 挂载阶段
+* constuctor
+
+  初始化state和绑定事件处理的方法
+
+* componentWillMount
+* render
+
+  不能执行任何有副作用的操作
+
+* componentDidMount
+
+  通常用于向服务端请求数据
+
+2. 更新阶段
+* componentWillReceiveProps(nextProps)
+* shouldComponentUpdate(nextProps,nextState)
+
+* componentWillUpdate(nextProps,nextState)
+
+  通过比较nextProps、nextState、props、state决定这个方法的返回结果用于减少不必要的渲染
+
+* render
+* componentDidUpdate
+
+3. 卸载阶段
+* componentWillUnmount
+
+  用于执行清理工作、例如:清除组件中使用的定时器以及清除手动创建的DOM元素等,以避免引起内存泄漏
+
