@@ -423,3 +423,30 @@ const store = useStore()
 ## typeScript的支持 
 
 https://www.vue3js.cn/docs/zh/guide/typescript-support.html#%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA
+
+## 自定义指令
+
+```js
+  import Vue, { createApp } from "vue"
+  const app = createApp({})
+  app.directive("name",{
+    binding:(el,binding)=>{
+      // 绑定时触发的函数
+    },
+    beforeMount:el=>{
+      //挂载前触发的函数
+    },
+    mounted:el=>{
+      //挂载后触发的函数
+    },
+    beforeUpdate:el=>{
+      // 更新前触发的函数
+    },
+    updated:el=>{
+      // 更新后触发的函数
+    },
+    beforeUnmount:el=>{
+      // 卸载前触发的函数
+    }
+  })
+```

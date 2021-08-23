@@ -190,7 +190,7 @@ render(){
 ```
 
 ### refs
-
+不能对函数组件做refs
 * 字符串
 
 ```js
@@ -209,6 +209,9 @@ render(){
 
 * 回调函数
 
+  用于遍历组件时获取ref:this.demoInput = {}||[]
+  用主键进行控制
+  
 ```js
     fun = () => {
       console.log(this.demoInput.value);
@@ -304,7 +307,7 @@ export default class home extends Component {
 * pubsub-js传值(订阅发布 传值)
 
 
-### 组件生命周期
+### 组件生命周期(16前、16后有更新)
 
 1. 挂载阶段
 * constuctor
@@ -312,6 +315,7 @@ export default class home extends Component {
   初始化state和绑定事件处理的方法
 
 * componentWillMount
+* getDerivedStateFromProps(props, state) 
 * render
 
   不能执行任何有副作用的操作
@@ -321,6 +325,7 @@ export default class home extends Component {
   通常用于向服务端请求数据
 
 2. 更新阶段
+* getDerivedStateFromProps(props, state);
 * componentWillReceiveProps(nextProps)
 * shouldComponentUpdate(nextProps,nextState)
 
@@ -330,7 +335,7 @@ export default class home extends Component {
 
 * render
 * componentDidUpdate
-
+* getSnapshotBeforeUpdate(prevProps, prevState)
 3. 卸载阶段
 * componentWillUnmount
 
