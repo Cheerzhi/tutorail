@@ -341,3 +341,55 @@ export default class home extends Component {
 
   用于执行清理工作、例如:清除组件中使用的定时器以及清除手动创建的DOM元素等,以避免引起内存泄漏
 
+
+
+### context
+
+```js
+// 根组件中使用context.Provider 通过value将处理的方法或者数据传出去
+// 根组件
+class UserListContainer extends Component {
+  render(){
+    return (
+      <ctx.Provider value={{onAddUser:this.handleAddUser,newUser:this.state.newUser,handleChange:this.handleChange}}>
+        <UserList 
+          users={this.state.users} 
+          currentUserId={this.state.currentUserId}
+          onSetCurrentUser={this.handleSetCurrentUser}
+        />
+        <UserDetail currentUser={currentUser} />
+      </ctx.Provider>
+    )
+  }
+}
+```
+
+```js
+// 子代组件使用Consumer接收对应方法或者数据
+class UserAdd extends Component{
+  render(){
+    return(
+      <ctx.Consumer>
+        {
+          ({handleChange,newUser,onAddUser})=>{
+            return(
+              <div>
+                <input type="text" onChange={handleChange} value={newUser}/>
+                <button onClick={onAddUser.bind(null,newUser)} >新增</button>
+              </div>)
+          }
+        }
+      </ctx.Consumer>
+    )
+  }
+}
+
+```
+  优势在于不需要中间组件不断传输、类似于vue的inject和provide
+  可以通过context的嵌套来进行不同数据处理,但是会context的更新会导致子组件或者更深层的组件的重渲染
+
+### 高阶组件
+
+
+
+## React-router
