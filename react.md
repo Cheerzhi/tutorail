@@ -385,11 +385,89 @@ class UserAdd extends Component{
 }
 
 ```
-  优势在于不需要中间组件不断传输、类似于vue的inject和provide
-  可以通过context的嵌套来进行不同数据处理,但是会context的更新会导致子组件或者更深层的组件的重渲染
+    优势在于不需要中间组件不断传输、类似于vue的inject和provide
+    可以通过context的嵌套来进行不同数据处理,但是会context的更新会导致子组件或者更深层的组件的重渲染
 
 ### 高阶组件
 
+    高阶组件是接收React组件并且返回一个新的React组件,将通用逻辑在组件间更好地复用
 
+#### 使用场景
+1. 操纵props
+
+    通过高阶拦截到props 对props执行增删改,再传送到被包装组件
+2. 通过ref访问组件实例
+
+    通过ref使高阶组件获取被包装组件的实例的引用,使高阶组件能够直接调用被包装组件的方法和属性
+3. 组件状态提升
+
+    高阶组件把受控组件的属性统一提升到高阶组件中进行维护
+4. 用其他元素包装组件
+
+#### 注意事项
+
+1. 不要再render方法中使用高阶组件,也不要在组件的其他生命周期使用高阶组件,每次render函数的执行,前一次高阶组件会被卸载,然后重新挂载新组件,导致组件和子组件的状态
 
 ## React-router
+
+使用版本React-router V4 版本
+
+浏览器使用:直接安装react-router-dom;react-native使用:react-router-native
+
+### 路由器(router)
+router会创建一个history对象来跟踪URL的变化;router只存在唯一的子元素
+### 路由配置(route)
+1. 模式
+- browserRouter
+- hashRouter
+2. match
+- params:定义和未定义型参数
+- isExact:接收boolean;完全匹配和部分匹配的区别 具有渲染对应路由组件的优先级问题
+- path
+- url
+
+3. 渲染组件的方式
+
+```jsx
+//1.component
+<Route path='/foo' component={Foo} />
+// 2.render
+<Route path='/foo' render={(props=>(
+  <Foo {...props} data={data} />
+)} />
+// 3.children
+<Route path='/foo' children={(prop)=>(
+  <Foo />
+)} />
+// 4.Switch和exact
+// 不使用Switch时当路由匹配的所有路由都会渲染
+// Switch是确保只有一个并且是从上至下的第一个会渲染 exact是确保精确匹配才会渲染
+<Router>
+  <Switch>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/Foo" component={Foo} />
+    <Route exact path="/:user" component={User} />
+  </Switch>
+</Router>
+// 5.嵌套路由
+// 待补充
+```
+### 导航
+
+#### 声明式导航
+- Link
+- NavLink
+
+#### 编程式导航
+props的里面有history,location的对象 与vue是一样的
+传过去的数据是通过state传过去
+- history.push
+- history.replace
+
+### 路由守卫
+
+
+### 动态路由
+
+
+### 文件分片异步加载
