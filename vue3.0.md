@@ -450,3 +450,47 @@ https://www.vue3js.cn/docs/zh/guide/typescript-support.html#%E9%A1%B9%E7%9B%AE%E
     }
   })
 ```
+
+### $attrs、 $props、$listeners
+
+1. 2.0版本
+
+this.$attrs 是接收未在子组件内定义父组件的属性
+this.$props 是接收子组件定义的父组件的属性
+this.$listeners 是子组件接收的所有事件
+
+```html
+<!-- 父组件 -->
+<Middle fd='temp' @ffn='ffn' middle="123" />
+<!-- 子组件 -->
+    <Son v-bind="$attrs" v-on="$listeners"/>
+<!-- 孙组件 -->
+<div>{{$attrs.fd}}</div>
+```
+
+```js
+// 父组件
+ffn(){
+  console.log("ffn")
+}
+
+// 子组件
+props:{
+  middle:{
+    type:String
+  }
+}
+mounted(){
+  console.log('middle',this.$attrs; // {fd:'temp'}
+  console.log('middle props',this.$props); // {middle:'123'}
+}
+
+// 孙组件
+mounted(){
+  console.log('son',this.$attrs; // {fd:'temp'}
+  console.log('son props',this.$props);
+  console.log('son Mounted listeners',this.$listeners); //{ffn:function}
+}
+```
+2. 3.0版本
+待补充

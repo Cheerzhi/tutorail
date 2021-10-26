@@ -57,3 +57,19 @@ interface Point {
 }
 //变量不允许修改
 ```
+
+### 配置文件
+tsconfig.json
+
+1. target
+ts编译后的js版本 "es5",
+2. Module
+当前代码的组织形式
+3. strict
+是否开启严格模式
+4. esModuleInterop
+
+### 配置TSLint
+
+yarn add tslint --dev
+yarn tslint --init
