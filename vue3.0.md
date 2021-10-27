@@ -493,4 +493,22 @@ mounted(){
 }
 ```
 2. 3.0版本
-待补充
+
+移除了$listeners
+自定义事件添加到attrs处
+
+```js
+setup(props,context){
+  console.log(props)  //{middle:'123'}
+  console.log(context.attrs)  //{fd:'temp',ffn:function}
+  // context可解构处attrs、emit
+}
+```
+
+### emit的问题
+
+现在可以定义emit的事件,但是少了native修饰符、使用原生事件时会触发多次事件
+```js
+emit:['事件名']
+
+```
