@@ -4,6 +4,7 @@
 通过transtion组件来使用动画
 
 1. duration(动画时间)
+
 单位为毫秒;可分别设置进入和离开时长
 ```html
   <transition :duration='{enter:300,leave:500}'>
@@ -12,13 +13,20 @@
   </transition>
 ```
 2. tag(编译标签)(transtion-group才有)
+
 一般是span
 
 3. enter-class/leave-class....动画的类名
 
 4. 事件
+
 before/after - enter/leave 
 进入/离开前后调用对应的方法
+
+5. 模式
+
+mode: out-in in-out;指的是新元素在旧元素退出前或者后才进入 一般使用out-in
+
 
 
 ## animate.css

@@ -498,9 +498,9 @@ mounted(){
 自定义事件添加到attrs处
 
 ```js
-setup(props,context){
+setup(props,{emit,attrs}){
   console.log(props)  //{middle:'123'}
-  console.log(context.attrs)  //{fd:'temp',ffn:function}
+  console.log(attrs)  //{fd:'temp',ffn:function}
   // context可解构处attrs、emit
 }
 ```
