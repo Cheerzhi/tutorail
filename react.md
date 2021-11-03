@@ -315,7 +315,7 @@ export default class home extends Component {
   初始化state和绑定事件处理的方法
 
 * componentWillMount
-* getDerivedStateFromProps(props, state) 
+* getDerivedStateFromProps(props, state) 相当于旧版的componentWillMount
 * render
 
   不能执行任何有副作用的操作
@@ -325,17 +325,17 @@ export default class home extends Component {
   通常用于向服务端请求数据
 
 2. 更新阶段
-* getDerivedStateFromProps(props, state);
+* getDerivedStateFromProps(props, state); 相当于旧版的componentWillReceiveProps(nextProps)
 * componentWillReceiveProps(nextProps)
-* shouldComponentUpdate(nextProps,nextState)
+* shouldComponentUpdate(nextProps,nextState) 相当于componentWillUpdate(nextProps,nextState)
 
 * componentWillUpdate(nextProps,nextState)
 
   通过比较nextProps、nextState、props、state决定这个方法的返回结果用于减少不必要的渲染
 
 * render
-* componentDidUpdate
 * getSnapshotBeforeUpdate(prevProps, prevState)
+* componentDidUpdate
 3. 卸载阶段
 * componentWillUnmount
 
@@ -388,6 +388,25 @@ class UserAdd extends Component{
     优势在于不需要中间组件不断传输、类似于vue的inject和provide
     可以通过context的嵌套来进行不同数据处理,但是会context的更新会导致子组件或者更深层的组件的重渲染
 
+### lazyload
+
+使用的是React当中lazy和Suspense;
+
+lazy能达成路由之间跳转的懒加载
+
+```jsx
+import Loading from './Loading'
+const Home = lazy(()=> import('./Home') )
+const About = lazy(()=> import('./About'))
+
+	<Suspense fallback={<Loading/>}>
+		{/* 注册路由 */}
+		<Route path="/about" component={About}/>
+		<Route path="/home" component={Home}/>
+	</Suspense>
+```
+
+
 ### 高阶组件
 
     高阶组件是接收React组件并且返回一个新的React组件,将通用逻辑在组件间更好地复用
@@ -418,8 +437,8 @@ class UserAdd extends Component{
 router会创建一个history对象来跟踪URL的变化;router只存在唯一的子元素
 ### 路由配置(route)
 1. 模式
-- browserRouter
-- hashRouter
+- browserRouter (历史模式)
+- hashRouter (哈希模式)
 2. match
 - params:定义和未定义型参数
 - isExact:接收boolean;完全匹配和部分匹配的区别 具有渲染对应路由组件的优先级问题
