@@ -4,9 +4,9 @@ const LimitRequest = function (max) {
   this.count = 0
   this._task = []
 }
-LimitRequest.prototype.sendRequest = function (req, ...args) {  
+LimitRequest.prototype.sendRequest = function (req) {  
   return new Promise((resolve, reject) => {
-    const task = this.createTask(req, args, resolve, reject)
+    const task = this.createTask(req, resolve, reject)
     if (this.count >= this.max) {
       this._task.push(task)
     } else {
@@ -15,15 +15,15 @@ LimitRequest.prototype.sendRequest = function (req, ...args) {
   })
 }
 
-LimitRequest.prototype.createTask = function(req, args, resolve, reject) {
+LimitRequest.prototype.createTask = function(req, resolve, reject) {
   return () => {
-    req(...args).then(resolve).catch(reject).finally(() => {
+    req.then(resolve).catch(reject).finally(() => {
       this.count--
+      console.log('待发送的请求',this._task.length);
+      console.log('count =',this.count)
       if (this._task.length) {
         let task = this._task.shift()
         task()
-      } else {
-        console.log('count =',this.count)
       }
     })
     this.count++
@@ -46,7 +46,7 @@ if (typeof Promise.prototype.finally !== 'function') {
 const limitP = new LimitRequest(5)
 
 function get (name,time){
-  return limitP.sendRequest(mock.get,name,time)
+  return limitP.sendRequest(mock(name,time))
 }
 
 module.exports = {get}
