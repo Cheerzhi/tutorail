@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<div id='app'>{{str}}
+  <h1>{{ str }}</h1>
+  <div>{{b}}</div>
+  <button @click="handleClick">按钮</button>
+  <input type="text" v-model="str ">
+</div>
+
+<body>
+  <script type="text/javascript" src="vue.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: "#app",
+      data: {
+        str: "123",
+        b: "这也是数据b"
+      },
+      methods: {
+        handleClick() {
+          console.log(this.str);
+          this.str = '456'
+        }
+      },
+      beforeCreate() {
+        console.log("beforeCreate", this.$el, this.$data);
+
+      },
+      created() {
+        console.log("created", this.$el, this.$data);
+
+      },
+      mounted() {
+        console.log("mounted", this.$el, this.$data);
+
+      },
+      beforeMount() {
+        console.log("beforeMount", this.$el, this.$data);
+
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -179,7 +179,27 @@ module.exports = {
 
 2. HtmlWebpackPlugin
 - 以一个模版打包后自动创建对应html文件
+- configureWebpack.externals配置不进行编译的库
+- pages里配置cdn项对应请求地址 模版中配置编译的css、js标签
+- 去掉代码中的引入项即可
+  
 3. SplitChunksPlugin
+```js
+configureWebpack:{
+  optimization:{
+    splitChunks:{
+      chunks:"all",//async
+      minChunks:1,    //最小需要被多少chunks共同引入
+      cacheGroups:{   //缓存组配置
+        vendors:{
+          test: "", //路径匹配规则,
+          priotity:-10, //优先级
+        }
+      }
+    }
+  }
+}
+```
 4. preload-webpack-plugin
 5. HotModuleReplacementPlugin
 - 供dev环境下的文件热更新
@@ -189,6 +209,5 @@ module.exports = {
 ## merge
 - 分开生产和dev的属性
 - 通过webpack-merge来合并对应的配置
-## splitchunk && pages
 
 
