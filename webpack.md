@@ -210,4 +210,19 @@ configureWebpack:{
 - 分开生产和dev的属性
 - 通过webpack-merge来合并对应的配置
 
+compression-webpack-plugin
 
+采用版本为6.1.1
+```js
+plugins: [
+      new CompressionPlugin({
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        // deleteOriginalAssets: false,
+        test:/\.js$|\.css$|\.html$|\.ttf$|\.eot$|\.woff$/,
+        threshold: 10240,
+        minRatio: 0.8
+      })
+    ]
+
+```
