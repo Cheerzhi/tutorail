@@ -56,8 +56,7 @@ const back = () =>{
 与vue2相比 取消了调用其绑定的组件 从而获得该组件的方法以及数据
 
 - 类似一个document.getElement()的调用来获取节点
-- 自定义组件是无法调用内部方法的
-- 原生dom节点中的属性、方法,可以通.value来调用
+- 原生dom节点中的属性、方法,可以通.value来调用 但必须要通过defineExpose进行暴露
 
 3. ref和reactive的区别
 ```js
